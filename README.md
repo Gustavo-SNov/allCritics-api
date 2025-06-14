@@ -23,6 +23,7 @@ A **AllCritics API** é a base do backend da plataforma AllCritics — um espaç
 - ✅ Segurança baseada em autenticação JWT
 
 ## 🏗️ Estrutura do Projeto
+```bash
 src/
 ├── main/
 │ ├── java/com/allcritics/
@@ -36,6 +37,7 @@ src/
 │ └── resources/
 │ ├── application.properties
 │ └── ...
+```
 
 
    
