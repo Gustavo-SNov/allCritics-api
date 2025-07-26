@@ -91,6 +91,69 @@ O projeto segue uma arquitetura em camadas para separar as responsabilidades:
 - `dto`: Objetos que definem a estrutura de dados para a comunicação via API.
 - `security`: Lógica específica para a geração e validação de tokens JWT.
 
+```
+src
+└── main
+├── java
+│   └── com
+│       └── allcritics
+│           └── api
+│               ├── AllCriticsApiApplication.java   // Ponto de entrada da aplicação
+│               │
+│               ├── config/                     // Classes de configuração (ex: Beans, Segurança)
+│               │   └── SecurityConfig.java       // Configurações do Spring Security (filtros, permissões)
+│               │
+│               ├── controller/                 // Camada de API (Endpoints REST)
+│               │   ├── AuthController.java       // Endpoints para /api/auth/** (login, registro)
+│               │   ├── ReviewController.java     // Endpoints para /api/reviews/**
+│               │   └── UserController.java       // Endpoints para /api/users/**
+│               │
+│               ├── dto/                        // Data Transfer Objects (Objetos para transferência de dados)
+│               │   ├── auth/
+│               │   │   ├── LoginRequestDto.java
+│               │   │   └── RegisterRequestDto.java
+│               │   └── review/
+│               │       ├── CreateReviewDto.java
+│               │       └── ReviewResponseDto.java
+│               │
+│               ├── exception/                  // Tratamento de exceções
+│               │   ├── GlobalExceptionHandler.java // Handler global para exceções da API (@RestControllerAdvice)
+│               │   └── ResourceNotFoundException.java // Exceção customizada
+│               │
+│               ├── domain/                      // Entidades JPA (Mapeamento do banco de dados)
+│               │   ├── Media.java
+│               │   ├── Review.java
+│               │   └── User.java
+│               │
+│               ├── pattern/                      // Padrões de Projeto
+│               │   ├── factory/
+│               │         ├── ReviewFactory.java
+│               │         └── UserFactory.java
+│               │   ├── builder/
+│               │         ├── ReviewBuilder.java
+│               │         └── UserBuilder.java
+│               ├── repository/                 // Camada de acesso a dados (Interfaces Spring Data JPA)
+│               │   ├── MediaRepository.java
+│               │   ├── ReviewRepository.java
+│               │   └── UserRepository.java
+│               │
+│               ├── security/                   // Classes relacionadas à segurança com JWT
+│               │   ├── JwtAuthenticationFilter.java // Filtro que valida o token a cada requisição
+│               │   └── JwtTokenProvider.java     // Classe para gerar e validar os tokens JWT
+│               │
+│               └── service/                    // Camada de lógica de negócios
+│                   ├── AuthServiceImpl.java    // Implementação da lógica de autenticação
+│                   ├── MediaService.java       // Lógica para buscar mídias (incluindo APIs externas)
+│                   └── ReviewServiceImpl.java  // Lógica para gerenciar as críticas
+│
+└── resources
+├── static/                         // Arquivos estáticos (geralmente vazio para uma API REST)
+├── templates/                      // Templates de views (geralmente vazio para uma API REST)
+├── application.properties          // Configurações principais da aplicação (porta, banco de dados, etc.)
+└── application.yml                 // Alternativa ao .properties, formato YAML
+
+```
+
 ## Endpoints da API
 
 Abaixo estão os endpoints principais disponíveis no MVP.
