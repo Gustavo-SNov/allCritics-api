@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -34,5 +35,9 @@ public class ContentDTO {
     private Long numberOfSeasons;
     private Long episodesPerSeason;
     private String broadcaster;
+
+    private List<ContentDTO> movies;
+    private List<ContentDTO> series;
+    private List<ContentDTO> games;
 
 }

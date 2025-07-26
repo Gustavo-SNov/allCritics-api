@@ -1,6 +1,6 @@
 package com.allcritics.api.domain.enums;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 
 @Getter

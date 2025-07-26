@@ -4,8 +4,12 @@ import com.allcritics.api.domain.entity.Content;
 import com.allcritics.api.domain.entity.Game;
 import com.allcritics.api.domain.entity.Movie;
 import com.allcritics.api.domain.entity.Serie;
+import com.allcritics.api.domain.enums.ContentType;
 import com.allcritics.api.dto.conteudo.ContentDTO;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ContentMapper {
@@ -41,6 +45,14 @@ public class ContentMapper {
         }
 
 
+        return dtoBuilder.build();
+    }
+
+    public ContentDTO toSplicdedContentDTO(List<Content> contents) {
+        ContentDTO.ContentDTOBuilder dtoBuilder = ContentDTO.builder()
+                .movies(contents.stream().filter(content -> content.getContentType().equals(ContentType.MOVIE)).map(this::toContentDTO).collect(Collectors.toList()))
+                .series(contents.stream().filter(content -> content.getContentType().equals(ContentType.SERIE)).map(this::toContentDTO).collect(Collectors.toList()))
+                .games(contents.stream().filter(content -> content.getContentType().equals(ContentType.GAME)).map(this::toContentDTO).collect(Collectors.toList()));
         return dtoBuilder.build();
     }
 }
