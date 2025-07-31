@@ -4,6 +4,7 @@ import com.allcritics.api.domain.entity.Content;
 import com.allcritics.api.dto.conteudo.ContentDTO;
 import com.allcritics.api.dto.conteudo.ContentFilter;
 import com.allcritics.api.service.ContentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class ContentController {
 
     private final ContentService contentService;
 
+    @Autowired
     private ContentController(ContentService contentService) {
         this.contentService = contentService;
     }
