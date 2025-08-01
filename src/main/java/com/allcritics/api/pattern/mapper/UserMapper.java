@@ -8,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -22,7 +21,6 @@ public class UserMapper {
         }
 
         User.UserBuilder user = User.builder()
-                .idUser(UUID.randomUUID().toString())
                 .username(registerDTO.username())
                 .email(registerDTO.email())
                 .password(passwordEncoder.encode(registerDTO.password()))

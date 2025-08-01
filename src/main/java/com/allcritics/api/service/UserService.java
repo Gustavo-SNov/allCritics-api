@@ -8,15 +8,18 @@ import com.allcritics.api.exception.user.UserAlreadyExistsException;
 import com.allcritics.api.pattern.mapper.UserMapper;
 import com.allcritics.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
@@ -24,7 +27,7 @@ public class UserService {
     private final TokenService tokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, AuthenticationManager authenticationManager, UserMapper userMapper, TokenService tokenService) {
+    public UserService(UserRepository userRepository,  @Lazy AuthenticationManager authenticationManager, UserMapper userMapper, TokenService tokenService) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
@@ -56,5 +59,14 @@ public class UserService {
         User savedUser = userRepository.save(newUser);
 
         return userMapper.toUserDTO(savedUser);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserDetails user = userRepository.findByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with email: " + username);
+        }
+        return user;
     }
 }
