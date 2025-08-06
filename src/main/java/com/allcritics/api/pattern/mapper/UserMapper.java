@@ -1,6 +1,7 @@
 package com.allcritics.api.pattern.mapper;
 
 import com.allcritics.api.domain.entity.User;
+import com.allcritics.api.domain.enums.UserRole;
 import com.allcritics.api.dto.user.RegisterDTO;
 import com.allcritics.api.dto.user.UserDTO;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class UserMapper {
                 .username(registerDTO.username())
                 .email(registerDTO.email())
                 .password(passwordEncoder.encode(registerDTO.password()))
+                .role(UserRole.DEFAULT)
                 .createDate(LocalDate.now());
         return user.build();
     }
@@ -37,6 +40,7 @@ public class UserMapper {
                 .idUser(user.getIdUser())
                 .username(user.getUsername())
                 .email(user.getEmail())
+                .role(Optional.ofNullable(user.getRole()).orElse(UserRole.DEFAULT))
                 .biography(user.getBiography())
                 .profileImageUrl(user.getProfileImageUrl())
                 .createDate(user.getCreateDate())

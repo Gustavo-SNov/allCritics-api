@@ -23,9 +23,7 @@ public class ContentController {
 
     @GetMapping
     public ResponseEntity<List<ContentDTO>> getContents(ContentFilter filter) {
-
         List<ContentDTO> contents = contentService.getAllContents(filter);
-        contents.forEach(System.out::println);
         return ResponseEntity.ok().body(contents);
     }
 

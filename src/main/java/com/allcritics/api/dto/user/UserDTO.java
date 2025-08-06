@@ -1,5 +1,6 @@
 package com.allcritics.api.dto.user;
 
+import com.allcritics.api.domain.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class UserDTO {
     private String username;
     private String email;
     private String token;
+    private UserRole role;
 
     // --- Dados de Perfil ---
     private String biography;

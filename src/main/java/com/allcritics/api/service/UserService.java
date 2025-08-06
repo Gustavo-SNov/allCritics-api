@@ -4,6 +4,7 @@ import com.allcritics.api.domain.entity.User;
 import com.allcritics.api.dto.user.LoginDTO;
 import com.allcritics.api.dto.user.RegisterDTO;
 import com.allcritics.api.dto.user.UserDTO;
+import com.allcritics.api.exception.AccessDeniedException;
 import com.allcritics.api.exception.user.UserAlreadyExistsException;
 import com.allcritics.api.pattern.mapper.UserMapper;
 import com.allcritics.api.repository.UserRepository;
@@ -16,6 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -27,15 +32,15 @@ public class UserService implements UserDetailsService {
     private final TokenService tokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository,  @Lazy AuthenticationManager authenticationManager, UserMapper userMapper, TokenService tokenService) {
+    public UserService(UserRepository userRepository, @Lazy AuthenticationManager authenticationManager, UserMapper userMapper, TokenService tokenService) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
         this.userMapper = userMapper;
     }
 
-    public  UserDTO login(LoginDTO login) {
-        UsernamePasswordAuthenticationToken usernamePassword =  new UsernamePasswordAuthenticationToken(login.email(), login.password());
+    public UserDTO login(LoginDTO login) {
+        UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(login.email(), login.password());
         Authentication auth = authenticationManager.authenticate(usernamePassword);
 
         User authenticatedUser = (User) auth.getPrincipal();
@@ -69,4 +74,60 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
+
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        if (users.isEmpty()) {
+            System.out.println("No Users found");
+            return List.of();
+        }
+        return users.stream().map(userMapper::toUserDTO).collect(Collectors.toList());
+    }
+
+    public UserDTO getUserById(String idUser) {
+        User user = userRepository.findById(idUser).orElse(null);
+
+        return userMapper.toUserDTO(user);
+    }
+
+    public void deleteUserById(String idUser) {
+        User user = userRepository.findById(idUser).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        userRepository.delete(user);
+    }
+
+    @Transactional // Garante operação atômica
+    public UserDTO updateUser(String idUser, UserDTO updateUserDTO, String username) {
+        User userToUpdate = validatePermission(idUser, username);
+
+        if (updateUserDTO.getUsername() != null && !updateUserDTO.getUsername().isBlank()) {
+            // Se o username mudou, verificar se o novo já não está em uso por outra pessoa
+            if (!updateUserDTO.getUsername().equals(userToUpdate.getUsername()) && userRepository.existsUserByUsername(updateUserDTO.getUsername())) {
+                throw new UserAlreadyExistsException("Conflict: Username already exists");
+            }
+            userToUpdate.setUsername(updateUserDTO.getUsername());
+        }
+
+        if (updateUserDTO.getBiography() != null) {
+            userToUpdate.setBiography(updateUserDTO.getBiography());
+        }
+
+        if (updateUserDTO.getProfileImageUrl() != null) {
+            userToUpdate.setProfileImageUrl(updateUserDTO.getProfileImageUrl());
+        }
+
+        User userUpdated = userRepository.save(userToUpdate);
+
+        return userMapper.toUserDTO(userUpdated);
+    }
+
+    public User validatePermission(String idUser, String username) {
+        User user = userRepository.findById(idUser).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        if(!user.getUsername().equals(username)) {
+            throw new AccessDeniedException("Access denied. You do not have permission to update this user");
+        }
+        return user;
+    }
+
+
 }
