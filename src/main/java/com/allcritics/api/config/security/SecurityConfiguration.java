@@ -40,9 +40,19 @@ public class SecurityConfiguration {
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
-                                .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, "auth/register").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "content/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/content/**").hasRole("ADMIN")
+
+                                .requestMatchers(HttpMethod.GET, "/user","/user/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/user/**").authenticated()
+                                .requestMatchers(HttpMethod.DELETE, "/user/**").authenticated()
+
+                                .requestMatchers(HttpMethod.POST, "/review").authenticated()
+                                .requestMatchers(HttpMethod.PUT, "/review/**").authenticated()
+                                .requestMatchers(HttpMethod.DELETE, "/review/**").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/review","/review/**").permitAll()
+
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

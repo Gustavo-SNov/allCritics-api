@@ -41,7 +41,6 @@ public class UserController {
 
     @PutMapping(value = "/{idUser}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable String idUser, @Valid @RequestBody UserDTO userDTO, Authentication authentication) {
-        System.out.println(userDTO.toString());
         String username = authentication.getName();
 
         UserDTO updatedUser = userService.updateUser(idUser,userDTO,username);

@@ -60,7 +60,6 @@ public class UserService implements UserDetailsService {
         }
 
         User newUser = userMapper.toRegisterUser(registerDTO);
-
         User savedUser = userRepository.save(newUser);
 
         return userMapper.toUserDTO(savedUser);

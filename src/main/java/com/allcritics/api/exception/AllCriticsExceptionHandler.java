@@ -38,6 +38,18 @@ public class AllCriticsExceptionHandler {
         return new ResponseEntity<>(apiError, status);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Object> handleBadRequestException(BadRequestException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ApiError apiError = new ApiError(
+                status.value(),
+                status.getReasonPhrase(),
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(apiError, status);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGenericException(
             Exception ex, WebRequest request) {

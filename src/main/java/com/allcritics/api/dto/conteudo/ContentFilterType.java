@@ -1,12 +1,11 @@
 package com.allcritics.api.dto.conteudo;
 
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+
 
 @Getter
 public enum ContentFilterType {
-    MOVIE("MOVIE"), SERIE("SERIE"), GAME("GAME"), BOOK("BOOK"), ALL("ALL"), SPLICE("SPLICE");
+    MOVIE("MOVIE"), SERIE("SERIE"), GAME("GAME"), BOOK("BOOK");
 
     private final String type;
 

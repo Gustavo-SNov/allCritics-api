@@ -121,19 +121,19 @@ src
 │               │   └── ResourceNotFoundException.java // Exceção customizada
 │               │
 │               ├── domain/                      // Entidades JPA (Mapeamento do banco de dados)
-│               │   ├── Media.java
+│               │   ├── Content.java
 │               │   ├── Review.java
 │               │   └── User.java
 │               │
 │               ├── pattern/                      // Padrões de Projeto
 │               │   ├── factory/
-│               │         ├── ReviewFactory.java
-│               │         └── UserFactory.java
-│               │   ├── builder/
+│               │   │   ├── ReviewFactory.java
+│               │   │   └── UserFactory.java
+│               │   └── builder/
 │               │         ├── ReviewBuilder.java
 │               │         └── UserBuilder.java
 │               ├── repository/                 // Camada de acesso a dados (Interfaces Spring Data JPA)
-│               │   ├── MediaRepository.java
+│               │   ├── ContentRepository.java
 │               │   ├── ReviewRepository.java
 │               │   └── UserRepository.java
 │               │
@@ -142,9 +142,10 @@ src
 │               │   └── JwtTokenProvider.java     // Classe para gerar e validar os tokens JWT
 │               │
 │               └── service/                    // Camada de lógica de negócios
-│                   ├── AuthServiceImpl.java    // Implementação da lógica de autenticação
-│                   ├── MediaService.java       // Lógica para buscar mídias (incluindo APIs externas)
-│                   └── ReviewServiceImpl.java  // Lógica para gerenciar as críticas
+│                   ├── AuthService.java    // Implementação da lógica de autenticação
+│                   ├── ContentService.java       // Lógica para buscar conteúdos
+│                   ├── UserService.java       // Lógica para buscar conteúdos
+│                   └── ReviewService.java  // Lógica para gerenciar as críticas
 │
 └── resources
 ├── static/                         // Arquivos estáticos (geralmente vazio para uma API REST)

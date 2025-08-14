@@ -1,14 +1,13 @@
 package com.allcritics.api.controller;
 
-import com.allcritics.api.domain.entity.Content;
 import com.allcritics.api.dto.conteudo.ContentDTO;
 import com.allcritics.api.dto.conteudo.ContentFilter;
 import com.allcritics.api.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/content")
@@ -22,8 +21,9 @@ public class ContentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ContentDTO>> getContents(ContentFilter filter) {
-        List<ContentDTO> contents = contentService.getAllContents(filter);
+    public ResponseEntity<Page<ContentDTO>> getContents(ContentFilter filter, Pageable pageable) {
+        System.out.println("Pageable: " + pageable.toString());
+        Page<ContentDTO> contents = contentService.getAllContents(filter,pageable);
         return ResponseEntity.ok().body(contents);
     }
 

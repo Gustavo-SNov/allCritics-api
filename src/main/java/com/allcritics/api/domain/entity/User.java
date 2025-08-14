@@ -34,6 +34,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     // --- Dados de Perfil ---

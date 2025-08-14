@@ -44,7 +44,6 @@ public class SecurityFilter extends OncePerRequestFilter {
             if (!subject.isEmpty()) {
                 // Carrega os dados do usuário a partir do "subject" extraído do token
                 UserDetails user = userService.loadUserByUsername(subject);
-
                 // Cria o objeto de autenticação para o Spring Security
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 // Define a autenticação no contexto de segurança do Spring.
