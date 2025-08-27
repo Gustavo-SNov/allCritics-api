@@ -6,6 +6,7 @@ import com.allcritics.api.domain.entity.Movie;
 import com.allcritics.api.domain.entity.Serie;
 import com.allcritics.api.domain.enums.ContentType;
 import com.allcritics.api.dto.conteudo.ContentDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -48,7 +49,9 @@ public class ContentMapper {
         return dtoBuilder.build();
     }
 
-    public ContentDTO toSplicdedContentDTO(List<Content> contents) {
+    public ContentDTO toSplicedContentDTO(Page<Content> contents) {
+
+
         ContentDTO.ContentDTOBuilder dtoBuilder = ContentDTO.builder()
                 .movies(contents.stream().filter(content -> content.getContentType().equals(ContentType.MOVIE)).map(this::toContentDTO).collect(Collectors.toList()))
                 .series(contents.stream().filter(content -> content.getContentType().equals(ContentType.SERIE)).map(this::toContentDTO).collect(Collectors.toList()))

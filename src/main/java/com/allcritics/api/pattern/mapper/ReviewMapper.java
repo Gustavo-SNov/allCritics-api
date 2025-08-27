@@ -41,8 +41,10 @@ public class ReviewMapper {
                 .title(review.getTitle())
                 .comment(review.getComment())
                 .rate(review.getRate())
+                .createdAt(review.getCreatedAt())
                 .user(userMapper.toUserDTO(review.getUser()))
                 .content(contentMapper.toContentDTO(review.getContent()));
+
         return builder.build();
     }
 

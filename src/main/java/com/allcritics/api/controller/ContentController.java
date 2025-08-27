@@ -22,7 +22,6 @@ public class ContentController {
 
     @GetMapping
     public ResponseEntity<Page<ContentDTO>> getContents(ContentFilter filter, Pageable pageable) {
-        System.out.println("Pageable: " + pageable.toString());
         Page<ContentDTO> contents = contentService.getAllContents(filter,pageable);
         return ResponseEntity.ok().body(contents);
     }
@@ -32,6 +31,7 @@ public class ContentController {
         ContentDTO contentDTO = contentService.getContentById(idContent);
         return ResponseEntity.ok().body(contentDTO);
     }
+
 
     @DeleteMapping(value = "/{idContent}")
     public ResponseEntity<Void> deleteContentById(@PathVariable Long idContent) {

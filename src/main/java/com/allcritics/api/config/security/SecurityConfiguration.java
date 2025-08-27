@@ -42,7 +42,16 @@ public class SecurityConfiguration {
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+
                                 .requestMatchers(HttpMethod.DELETE, "/content/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/content/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/content").permitAll()
+
+                                .requestMatchers(HttpMethod.GET, "/content/movie/**").permitAll()
+
+                                .requestMatchers(HttpMethod.GET, "/content/serie/**").permitAll()
+
+                                .requestMatchers(HttpMethod.GET, "/content/game/**").permitAll()
 
                                 .requestMatchers(HttpMethod.GET, "/user","/user/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/user/**").authenticated()

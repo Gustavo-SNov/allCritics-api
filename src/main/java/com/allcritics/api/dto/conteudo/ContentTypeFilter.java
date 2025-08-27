@@ -4,12 +4,12 @@ import lombok.Getter;
 
 
 @Getter
-public enum ContentFilterType {
+public enum ContentTypeFilter {
     MOVIE("MOVIE"), SERIE("SERIE"), GAME("GAME"), BOOK("BOOK");
 
     private final String type;
 
-    ContentFilterType(String type) {
+    ContentTypeFilter(String type) {
         this.type = type;
     }
 

@@ -9,6 +9,9 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContentFilter {
 
-    private ContentFilterType contentFilter;
+    private ContentTypeFilter contentFilter;
 
+    private Boolean spliced = false;
+
+    private Boolean ranked = false;
 }

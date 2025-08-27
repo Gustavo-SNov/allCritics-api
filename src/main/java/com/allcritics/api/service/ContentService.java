@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ContentService {
@@ -32,8 +34,8 @@ public class ContentService {
         Specification<Content> specification = contentSpecification.getFilterToContent(filter);
         Page<Content> contents = contentRepository.findAll(specification, pageable);
 
-
         return contents.map(contentMapper::toContentDTO);
+
     }
 
     public ContentDTO getContentById(Long idContent) {
@@ -45,6 +47,7 @@ public class ContentService {
         Content content = contentRepository.findById(idContent).orElseThrow(() -> new ResourceNotFoundException("Content not found."));
         contentRepository.delete(content);
     }
+
 
 //    public List<ContentDTO> getFilteredContents(ContentFilter filter, List<Content> contents) {
 //        ContentFilterType contentFilter = Optional.ofNullable(filter.getContentFilter()).orElse(ContentFilterType.ALL);

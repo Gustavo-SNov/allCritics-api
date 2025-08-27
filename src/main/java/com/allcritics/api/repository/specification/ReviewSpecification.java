@@ -18,11 +18,11 @@ public class ReviewSpecification {
             List<Predicate> predicates = new ArrayList<Predicate>();
 
             if (filter.idContent() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("idContent"), filter.idContent()));
+                predicates.add(criteriaBuilder.equal(root.get("content").get("idContent"), filter.idContent()));
             }
 
             if (filter.idUser() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("idUser"), filter.idUser()));
+                predicates.add(criteriaBuilder.equal(root.get("user").get("idUser"), filter.idUser()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
