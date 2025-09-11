@@ -25,7 +25,7 @@ public class GameController {
     @GetMapping
     public ResponseEntity<Page<ContentDTO>> getGames(Pageable pageable) {
         ContentFilter filter = new ContentFilter();
-        filter.setContentFilter(ContentTypeFilter.GAME);
+        filter.setContentType(ContentTypeFilter.GAME);
         Page<ContentDTO> contents = contentService.getAllContents(filter,pageable);
         return ResponseEntity.ok().body(contents);
     }

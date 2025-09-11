@@ -49,28 +49,7 @@ public class ContentService {
     }
 
 
-//    public List<ContentDTO> getFilteredContents(ContentFilter filter, List<Content> contents) {
-//        ContentFilterType contentFilter = Optional.ofNullable(filter.getContentFilter()).orElse(ContentFilterType.ALL);
-//        switch (contentFilter){
-//            case ALL:
-//                return contents.stream().map(contentMapper::toContentDTO).collect(Collectors.toList());
-//            case SERIE:
-//                return contents.stream().filter(content -> content.getContentType().equals(ContentType.SERIE)).map(contentMapper::toContentDTO).collect(Collectors.toList());
-//            case GAME:
-//                return contents.stream().filter(content -> content.getContentType().equals(ContentType.GAME)).map(contentMapper::toContentDTO).collect(Collectors.toList());
-//            case MOVIE:
-//                return contents.stream().filter(content -> content.getContentType().equals(ContentType.MOVIE)).map(contentMapper::toContentDTO).collect(Collectors.toList());
-//            case BOOK:
-//                return contents.stream().filter(content -> content.getContentType().equals(ContentType.BOOK)).map(contentMapper::toContentDTO).collect(Collectors.toList());
-//            case SPLICE:
-//                List<ContentDTO> splicedContent = new ArrayList<>();
-//                splicedContent.add(contentMapper.toSplicdedContentDTO(contents));
-//                return splicedContent;
-//
-//            default:
-//                return List.of();
-//        }
-//    }
+
 
 
 }

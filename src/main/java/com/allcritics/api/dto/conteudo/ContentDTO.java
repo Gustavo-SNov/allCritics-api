@@ -1,6 +1,7 @@
 package com.allcritics.api.dto.conteudo;
 
 import com.allcritics.api.domain.enums.ContentType;
+import com.allcritics.api.dto.category.CategoryDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
@@ -35,6 +36,9 @@ public class ContentDTO {
     private Long numberOfSeasons;
     private Long episodesPerSeason;
     private String broadcaster;
+
+    // Campos de relacionamentos
+    private List<CategoryDTO> categories;
 
     private List<ContentDTO> movies;
     private List<ContentDTO> series;

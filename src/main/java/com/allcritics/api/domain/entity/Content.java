@@ -6,10 +6,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data // Gera @Getter, @Setter, @ToString, @EqualsAndHashCode e @RequiredArgsConstructor
 @NoArgsConstructor
@@ -60,5 +63,10 @@ public abstract class Content {
     @Column(name = "updated_at")
     private LocalDate updateDate;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "content_category", joinColumns = @JoinColumn(name = "id_content"), inverseJoinColumns = @JoinColumn(name = "id_category"))
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Category> categories;
 
 }

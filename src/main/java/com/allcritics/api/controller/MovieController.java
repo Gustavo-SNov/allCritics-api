@@ -26,7 +26,7 @@ public class MovieController {
     @GetMapping
     public ResponseEntity<Page<ContentDTO>> getMovies(Pageable pageable) {
         ContentFilter filter = new ContentFilter();
-        filter.setContentFilter(ContentTypeFilter.MOVIE);
+        filter.setContentType(ContentTypeFilter.MOVIE);
         Page<ContentDTO> contents = contentService.getAllContents(filter,pageable);
         return ResponseEntity.ok().body(contents);
     }

@@ -26,7 +26,7 @@ public class SerieController {
     @GetMapping
     public ResponseEntity<Page<ContentDTO>> getSeries(Pageable pageable) {
         ContentFilter filter = new ContentFilter();
-        filter.setContentFilter(ContentTypeFilter.SERIE);
+        filter.setContentType(ContentTypeFilter.SERIE);
         Page<ContentDTO> contents = contentService.getAllContents(filter,pageable);
         return ResponseEntity.ok().body(contents);
     }

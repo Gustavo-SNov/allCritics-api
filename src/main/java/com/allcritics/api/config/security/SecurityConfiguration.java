@@ -48,9 +48,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.POST, "/content").permitAll()
 
                                 .requestMatchers(HttpMethod.GET, "/content/movie/**").permitAll()
-
                                 .requestMatchers(HttpMethod.GET, "/content/serie/**").permitAll()
-
                                 .requestMatchers(HttpMethod.GET, "/content/game/**").permitAll()
 
                                 .requestMatchers(HttpMethod.GET, "/user","/user/**").permitAll()
@@ -61,6 +59,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.PUT, "/review/**").authenticated()
                                 .requestMatchers(HttpMethod.DELETE, "/review/**").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/review","/review/**").permitAll()
+
+                                .requestMatchers(HttpMethod.GET, "/category/**").permitAll()
 
                                 .anyRequest().authenticated()
                 )

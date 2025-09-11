@@ -1,10 +1,8 @@
 package com.allcritics.api.pattern.mapper;
 
-import com.allcritics.api.domain.entity.Content;
-import com.allcritics.api.domain.entity.Game;
-import com.allcritics.api.domain.entity.Movie;
-import com.allcritics.api.domain.entity.Serie;
+import com.allcritics.api.domain.entity.*;
 import com.allcritics.api.domain.enums.ContentType;
+import com.allcritics.api.dto.category.CategoryDTO;
 import com.allcritics.api.dto.conteudo.ContentDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -45,9 +43,25 @@ public class ContentMapper {
                     .broadcaster(serie.getBroadcaster());
         }
 
+        if (content.getCategories() != null && !content.getCategories().isEmpty()) {
+            List<CategoryDTO> categories = content.getCategories().stream().map(this::toCategoryDTO).toList();
+            dtoBuilder.categories(categories);
+        }
+
 
         return dtoBuilder.build();
     }
+
+    public CategoryDTO toCategoryDTO(Category category) {
+        if (category == null) {
+            return null;
+        }
+        CategoryDTO.CategoryDTOBuilder dtoBuilder = CategoryDTO.builder()
+                .idCategory(category.getIdCategory())
+                .name(category.getName());
+        return dtoBuilder.build();
+    }
+
 
     public ContentDTO toSplicedContentDTO(Page<Content> contents) {
 
