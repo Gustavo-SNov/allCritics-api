@@ -31,18 +31,16 @@ public class ReviewService {
     private final ContentRepository contentRepository;
     private final ReviewMapper reviewMapper;
     private final ApplicationEventPublisher eventPublisher;
-    private final UserService userService;
     private final ReviewSpecification reviewSpecification;
     private final AuthService authService;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, @Lazy UserRepository userRepository, @Lazy ContentRepository contentRepository, ReviewMapper reviewMapper, ApplicationEventPublisher eventPublisher,@Lazy UserService userService, ReviewSpecification reviewSpecification, @Lazy AuthService authService) {
+    public ReviewService(ReviewRepository reviewRepository, @Lazy UserRepository userRepository, @Lazy ContentRepository contentRepository, ReviewMapper reviewMapper, ApplicationEventPublisher eventPublisher,ReviewSpecification reviewSpecification, @Lazy AuthService authService) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.contentRepository = contentRepository;
         this.reviewMapper = reviewMapper;
         this.eventPublisher = eventPublisher;
-        this.userService = userService;
         this.reviewSpecification = reviewSpecification;
         this.authService = authService;
     }
