@@ -38,7 +38,7 @@ public class Review {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "rate") // Mapeia o tipo DECIMAL(2,1)
+    @Column(name = "rate")
     private Double rate;
 
     @CreationTimestamp

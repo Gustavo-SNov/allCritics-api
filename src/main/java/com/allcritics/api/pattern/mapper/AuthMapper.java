@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class UserMapper {
+public class AuthMapper {
 
     private final PasswordEncoder passwordEncoder;
 
@@ -24,16 +24,16 @@ public class UserMapper {
 
         User.UserBuilder user = User.builder()
                 .username(registerDTO.username())
-                .accountName(registerDTO.accountName())
                 .email(registerDTO.email())
                 .password(passwordEncoder.encode(registerDTO.password()))
                 .role(UserRole.DEFAULT)
+                .accountName(registerDTO.accountName())
                 .createDate(LocalDate.now());
         return user.build();
     }
 
-    public UserDTO toUserDTO(User user) {
-        if (user == null) {
+    public UserDTO toAutheticatedUser(User user, String token){
+        if (user == null || token == null) {
             return null;
         }
 
@@ -41,6 +41,7 @@ public class UserMapper {
                 .idUser(user.getIdUser())
                 .username(user.getUsername())
                 .email(user.getEmail())
+                .token(token)
                 .role(Optional.ofNullable(user.getRole()).orElse(UserRole.DEFAULT))
                 .accountName(user.getAccountName())
                 .biography(user.getBiography())

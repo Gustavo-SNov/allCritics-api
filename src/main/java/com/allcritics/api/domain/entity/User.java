@@ -2,10 +2,7 @@ package com.allcritics.api.domain.entity;
 
 import com.allcritics.api.domain.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -28,6 +26,9 @@ public class User implements UserDetails {
     private String idUser;
 
     // --- Dados de Identidade/Conta ---
+    @Column(nullable = false, unique = true, length = 50)
+    private String username;
+
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
@@ -38,20 +39,28 @@ public class User implements UserDetails {
     private UserRole role;
 
     // --- Dados de Perfil ---
-    @Column(nullable = false, unique = true, length = 50)
-    private String username;
+    @Column(nullable = false, length = 100)
+    private String accountName;
 
     @Lob
     private String biography;
 
-    @Column(name = "profile_image_url")
-    private String profileImageUrl;
+    @Column(name = "profile_img_url")
+    private String profileImgUrl;
+
+    @Column(name = "cover_img_url")
+    private String coverImgUrl;
 
     @Column(name = "created_at", nullable = false)
     private LocalDate createDate;
 
     @Column(name = "updated_at")
     private LocalDate updateDate;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Review> reviews;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

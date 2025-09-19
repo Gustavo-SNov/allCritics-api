@@ -33,9 +33,10 @@ public class ReviewService {
     private final ApplicationEventPublisher eventPublisher;
     private final UserService userService;
     private final ReviewSpecification reviewSpecification;
+    private final AuthService authService;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, @Lazy UserRepository userRepository, @Lazy ContentRepository contentRepository, ReviewMapper reviewMapper, ApplicationEventPublisher eventPublisher,@Lazy UserService userService, ReviewSpecification reviewSpecification) {
+    public ReviewService(ReviewRepository reviewRepository, @Lazy UserRepository userRepository, @Lazy ContentRepository contentRepository, ReviewMapper reviewMapper, ApplicationEventPublisher eventPublisher,@Lazy UserService userService, ReviewSpecification reviewSpecification, @Lazy AuthService authService) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.contentRepository = contentRepository;
@@ -43,6 +44,7 @@ public class ReviewService {
         this.eventPublisher = eventPublisher;
         this.userService = userService;
         this.reviewSpecification = reviewSpecification;
+        this.authService = authService;
     }
 
     public ReviewDTO getReview(Long idReview) {
@@ -86,7 +88,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(idReview).orElseThrow(() -> new ResourceNotFoundException("Review not found."));
 
         // 1. Validar Usuário
-        User user = userService.validatePermission(reviewDTO.getUser().getIdUser(), username);
+        User user = authService.validatePermission(reviewDTO.getUser().getIdUser(), username);
 
         // 2. Validar Conteúdo
         Content content = contentRepository.findById(reviewDTO.getContent().getIdContent()).orElseThrow(() -> new ResourceNotFoundException("Content not found"));

@@ -1,4 +1,4 @@
 package com.allcritics.api.dto.user;
 
-public record RegisterDTO(String username,String email, String password) {
+public record RegisterDTO(String username,String accountName,String email, String password) {
 }

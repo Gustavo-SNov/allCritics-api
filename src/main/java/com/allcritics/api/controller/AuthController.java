@@ -3,7 +3,7 @@ package com.allcritics.api.controller;
 import com.allcritics.api.dto.user.LoginDTO;
 import com.allcritics.api.dto.user.RegisterDTO;
 import com.allcritics.api.dto.user.UserDTO;
-import com.allcritics.api.service.UserService;
+import com.allcritics.api.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,24 +17,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
     @Autowired
-    private AuthController(UserService userService) {
-        this.userService = userService;
+    private AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@Valid @RequestBody LoginDTO login){
-        UserDTO userDTO = userService.login(login);
+    public ResponseEntity<UserDTO> login(@Valid @RequestBody LoginDTO login) {
+        UserDTO userDTO = authService.login(login);
 
         return ResponseEntity.ok().body(userDTO);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterDTO register){
+    public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterDTO register) {
 
-        UserDTO userDTO = userService.register(register);
+        UserDTO userDTO = authService.register(register);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }

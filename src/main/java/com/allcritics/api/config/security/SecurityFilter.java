@@ -1,5 +1,6 @@
 package com.allcritics.api.config.security;
 
+import com.allcritics.api.service.AuthService;
 import com.allcritics.api.service.TokenService;
 import com.allcritics.api.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -20,13 +21,13 @@ import java.io.IOException;
 public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
-    private final UserService userService;
+    private final AuthService authService;
 
     @Lazy
     @Autowired
-    public SecurityFilter(TokenService tokenService, UserService userService) {
+    public SecurityFilter(TokenService tokenService, AuthService authService) {
         this.tokenService = tokenService;
-        this.userService = userService;
+        this.authService = authService;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             if (!subject.isEmpty()) {
                 // Carrega os dados do usuário a partir do "subject" extraído do token
-                UserDetails user = userService.loadUserByUsername(subject);
+                UserDetails user = authService.loadUserByUsername(subject);
                 // Cria o objeto de autenticação para o Spring Security
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 // Define a autenticação no contexto de segurança do Spring.
