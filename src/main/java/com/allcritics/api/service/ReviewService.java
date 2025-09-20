@@ -62,7 +62,7 @@ public class ReviewService {
     public ReviewDTO createReview(ReviewCreateDTO reviewCreate, String username) {
 
         // 1. Validar Usuário
-        User user = (User) userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElse(null);
         if (user == null) {
             throw new ResourceNotFoundException("User not found");
         }

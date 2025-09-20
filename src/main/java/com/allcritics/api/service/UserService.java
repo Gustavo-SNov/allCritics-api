@@ -44,6 +44,11 @@ public class UserService {
         return userMapper.toUserDTO(user);
     }
 
+    public UserDTO getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        return userMapper.toUserDTO(user);
+    }
+
     public void deleteUserById(String idUser) {
         User user = userRepository.findById(idUser).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         userRepository.delete(user);

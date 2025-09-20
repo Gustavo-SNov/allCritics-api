@@ -7,6 +7,7 @@ import com.allcritics.api.dto.user.UserDTO;
 import com.allcritics.api.exception.AccessDeniedException;
 import com.allcritics.api.exception.user.UserAlreadyExistsException;
 import com.allcritics.api.pattern.mapper.AuthMapper;
+import com.allcritics.api.repository.AuthRepository;
 import com.allcritics.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -21,13 +22,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService implements UserDetailsService {
 
+    private final AuthRepository authRepository;
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
     private final AuthMapper authMapper;
 
     @Autowired
-    public AuthService(@Lazy UserRepository userRepository,@Lazy AuthenticationManager authenticationManager,TokenService tokenService, AuthMapper authMapper) {
+    public AuthService(AuthRepository authRepository,@Lazy UserRepository userRepository,@Lazy AuthenticationManager authenticationManager,TokenService tokenService, AuthMapper authMapper) {
+        this.authRepository = authRepository;
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
@@ -36,7 +39,7 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetails user = userRepository.findByEmail(username);
+        UserDetails user = authRepository.findByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email: " + username);
         }
