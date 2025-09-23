@@ -3,6 +3,7 @@ package com.allcritics.api.service;
 import com.allcritics.api.domain.entity.Content;
 import com.allcritics.api.domain.entity.Review;
 import com.allcritics.api.domain.entity.User;
+import com.allcritics.api.dto.consumptionHistory.ConsumptionHistoryCreateDTO;
 import com.allcritics.api.dto.review.ReviewCreateDTO;
 import com.allcritics.api.dto.review.ReviewDTO;
 import com.allcritics.api.dto.review.ReviewFilter;
@@ -33,9 +34,19 @@ public class ReviewService {
     private final ApplicationEventPublisher eventPublisher;
     private final ReviewSpecification reviewSpecification;
     private final AuthService authService;
+    private final ConsumptionHistoryService consumptionHistoryService;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, @Lazy UserRepository userRepository, @Lazy ContentRepository contentRepository, ReviewMapper reviewMapper, ApplicationEventPublisher eventPublisher,ReviewSpecification reviewSpecification, @Lazy AuthService authService) {
+    public ReviewService(
+            ReviewRepository reviewRepository,
+            @Lazy UserRepository userRepository,
+            @Lazy ContentRepository contentRepository,
+            ReviewMapper reviewMapper,
+            ApplicationEventPublisher eventPublisher,
+            ReviewSpecification reviewSpecification,
+            @Lazy AuthService authService,
+            @Lazy ConsumptionHistoryService consumptionHistoryService
+    ) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.contentRepository = contentRepository;
@@ -43,6 +54,7 @@ public class ReviewService {
         this.eventPublisher = eventPublisher;
         this.reviewSpecification = reviewSpecification;
         this.authService = authService;
+        this.consumptionHistoryService = consumptionHistoryService;
     }
 
     public ReviewDTO getReview(Long idReview) {
@@ -74,6 +86,13 @@ public class ReviewService {
 
         Review review = reviewMapper.toCreateReview(reviewCreate, user, content);
         reviewRepository.save(review);
+
+        ConsumptionHistoryCreateDTO historyDto = new ConsumptionHistoryCreateDTO(
+                review.getContent().getIdContent(),
+                review.getUser().getIdUser()
+        );
+
+        consumptionHistoryService.upsertHistory(historyDto);
 
         // Atualiza a nota do conteúdo
         eventPublisher.publishEvent(new ReviewCreatedEvent(this, review.getContent().getIdContent()));
