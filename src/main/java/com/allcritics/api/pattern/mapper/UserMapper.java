@@ -35,9 +35,7 @@ public class UserMapper {
                 .profileImgUrl(user.getProfileImgUrl())
                 .coverImgUrl(user.getCoverImgUrl())
                 .createDate(user.getCreateDate())
-                .updateDate(user.getUpdateDate())
-                .reviews(user.getReviews().stream().map(this::toReviewDTO).collect(Collectors.toList()));
-                ;
+                .updateDate(user.getUpdateDate());
         return userDTOBuilder.build();
     }
 

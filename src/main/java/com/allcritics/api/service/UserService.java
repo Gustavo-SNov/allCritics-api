@@ -54,16 +54,24 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    @Transactional // Garante operação atômica
+    @Transactional
     public UserDTO updateUser(String idUser, UserDTO updateUserDTO, String username) {
         User userToUpdate = authService.validatePermission(idUser, username);
 
         if (updateUserDTO.getUsername() != null && !updateUserDTO.getUsername().isBlank()) {
-            // Se o username mudou, verificar se o novo já não está em uso por outra pessoa
-            if (!updateUserDTO.getUsername().equals(userToUpdate.getUsername()) && userRepository.existsUserByUsername(updateUserDTO.getUsername())) {
+            if (!updateUserDTO.getUsername().equals(userToUpdate.getUsername())
+                    && userRepository.existsUserByUsername(updateUserDTO.getUsername())) {
                 throw new UserAlreadyExistsException("Conflict: Username already exists");
             }
             userToUpdate.setUsername(updateUserDTO.getUsername());
+        }
+
+        if (updateUserDTO.getEmail() != null && !updateUserDTO.getEmail().isBlank()) {
+            if (!updateUserDTO.getEmail().equals(userToUpdate.getEmail())
+                    && userRepository.existsUserByEmail(updateUserDTO.getEmail())) {
+                throw new UserAlreadyExistsException("Conflict: Email already exists");
+            }
+            userToUpdate.setEmail(updateUserDTO.getEmail());
         }
 
         if (updateUserDTO.getAccountName() != null && !updateUserDTO.getAccountName().isBlank()) {
@@ -82,9 +90,11 @@ public class UserService {
             userToUpdate.setCoverImgUrl(updateUserDTO.getCoverImgUrl());
         }
 
-        User userUpdated = userRepository.save(userToUpdate);
+        userToUpdate.setUpdateDate(java.time.LocalDate.now());
 
+        User userUpdated = userRepository.save(userToUpdate);
         return userMapper.toUserDTO(userUpdated);
     }
+
 
 }

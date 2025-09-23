@@ -32,6 +32,5 @@ public class UserDTO {
     private String coverImgUrl;
     private LocalDate createDate;
     private LocalDate updateDate;
-    private List<ReviewDTO> reviews;
 
 }
