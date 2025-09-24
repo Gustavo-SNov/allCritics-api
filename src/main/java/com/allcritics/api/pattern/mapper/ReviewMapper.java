@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 public class ReviewMapper {
 
     @Lazy
+    private final UserMapper userMapper;
+    @Lazy
     private final ContentMapper contentMapper;
 
     public Review toCreateReview(ReviewCreateDTO dto, User user, Content content) {
@@ -40,6 +42,7 @@ public class ReviewMapper {
                 .comment(review.getComment())
                 .rate(review.getRate())
                 .createdAt(review.getCreatedAt())
+                .user(userMapper.toUserDTO(review.getUser()))
                 .content(contentMapper.toContentDTO(review.getContent()));
 
         return builder.build();
