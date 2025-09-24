@@ -100,52 +100,60 @@ src
 │           └── api
 │               ├── AllCriticsApiApplication.java   // Ponto de entrada da aplicação
 │               │
-│               ├── config/                     // Classes de configuração (ex: Beans, Segurança)
-│               │   └── SecurityConfig.java       // Configurações do Spring Security (filtros, permissões)
+│               ├── config/security                     // Classes de configuração (ex: Beans, Segurança)
+│               │   ├── SecurityConfig.java       // Configurações do Spring Security (filtros, permissões)
+|               |   └── SecurityFilter.java   
 │               │
-│               ├── controller/                 // Camada de API (Endpoints REST)
-│               │   ├── AuthController.java       // Endpoints para /api/auth/** (login, registro)
-│               │   ├── ReviewController.java     // Endpoints para /api/reviews/**
-│               │   └── UserController.java       // Endpoints para /api/users/**
+│               ├── controller/                           // Camada de API (Endpoints REST)
+│               │   ├── AuthController.java               // Endpoints para /api/auth/** (login, registro)
+│               │   ├── ReviewController.java             // Endpoints para /api/reviews/**
+│               │   ├── UserController.java               // Endpoints para /api/users/**
+│               │   ├── ContentController.java            // Endpoints para /api/Content/**
+│               │   ├── CategoryController.java           // Endpoints para /api/category/**
+│               │   └── ConsumptionHistoryController.java // Endpoints para /api/consumption-history/**
 │               │
 │               ├── dto/                        // Data Transfer Objects (Objetos para transferência de dados)
-│               │   ├── auth/
-│               │   │   ├── LoginRequestDto.java
-│               │   │   └── RegisterRequestDto.java
+│               │   ├── Auth/
+│               │   ├── Content/
+│               │   ├── Error/
+│               │   ├── Category/
+│               │   ├── ConsumptionHistory/
 │               │   └── review/
-│               │       ├── CreateReviewDto.java
-│               │       └── ReviewResponseDto.java
 │               │
 │               ├── exception/                  // Tratamento de exceções
-│               │   ├── GlobalExceptionHandler.java // Handler global para exceções da API (@RestControllerAdvice)
+│               │   ├── AllCriticsExceptionHandler.java // Handler global para exceções da API (@RestControllerAdvice)
 │               │   └── ResourceNotFoundException.java // Exceção customizada
 │               │
 │               ├── domain/                      // Entidades JPA (Mapeamento do banco de dados)
 │               │   ├── Content.java
+│               │   ├── Game.java
+│               │   ├── Movie.java
+│               │   ├── Serie.java
+│               │   ├── ConsumptionHistory.java
+│               │   ├── Category.java
 │               │   ├── Review.java
 │               │   └── User.java
 │               │
 │               ├── pattern/                      // Padrões de Projeto
-│               │   ├── factory/
-│               │   │   ├── ReviewFactory.java
-│               │   │   └── UserFactory.java
-│               │   └── builder/
-│               │         ├── ReviewBuilder.java
-│               │         └── UserBuilder.java
+│               │   ├── mapper/
+│               │   └── listener/
 │               ├── repository/                 // Camada de acesso a dados (Interfaces Spring Data JPA)
+│               │   ├── specification/
+│               │   │   
 │               │   ├── ContentRepository.java
 │               │   ├── ReviewRepository.java
+│               │   ├── AuthRepository.java
+│               │   ├── ConsumptionHistoryRepository.java
 │               │   └── UserRepository.java
 │               │
-│               ├── security/                   // Classes relacionadas à segurança com JWT
-│               │   ├── JwtAuthenticationFilter.java // Filtro que valida o token a cada requisição
-│               │   └── JwtTokenProvider.java     // Classe para gerar e validar os tokens JWT
 │               │
 │               └── service/                    // Camada de lógica de negócios
 │                   ├── AuthService.java    // Implementação da lógica de autenticação
-│                   ├── ContentService.java       // Lógica para buscar conteúdos
-│                   ├── UserService.java       // Lógica para buscar conteúdos
-│                   └── ReviewService.java  // Lógica para gerenciar as críticas
+│                   ├── ContentService.java       
+│                   ├── UserService.java       
+│                   ├── CategoryService.java      
+│                   ├── ConsumptionHistoryService.java      
+│                   └── ReviewService.java  
 │
 └── resources
 ├── static/                         // Arquivos estáticos (geralmente vazio para uma API REST)
