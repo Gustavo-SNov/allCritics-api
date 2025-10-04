@@ -39,7 +39,7 @@ public abstract class Content {
 
 
     @Column(name = "title", unique = true, nullable = false)
-    private String title;
+    private String title;   
 
     @Enumerated(EnumType.STRING)
     @Column(name = "content_type", nullable = false)

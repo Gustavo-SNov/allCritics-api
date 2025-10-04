@@ -61,15 +61,4 @@ public class ContentMapper {
                 .name(category.getName());
         return dtoBuilder.build();
     }
-
-
-    public ContentDTO toSplicedContentDTO(Page<Content> contents) {
-
-
-        ContentDTO.ContentDTOBuilder dtoBuilder = ContentDTO.builder()
-                .movies(contents.stream().filter(content -> content.getContentType().equals(ContentType.MOVIE)).map(this::toContentDTO).collect(Collectors.toList()))
-                .series(contents.stream().filter(content -> content.getContentType().equals(ContentType.SERIE)).map(this::toContentDTO).collect(Collectors.toList()))
-                .games(contents.stream().filter(content -> content.getContentType().equals(ContentType.GAME)).map(this::toContentDTO).collect(Collectors.toList()));
-        return dtoBuilder.build();
-    }
 }

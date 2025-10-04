@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -61,6 +62,22 @@ public class User implements UserDetails {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Review> reviews;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_following",
+            joinColumns = @JoinColumn(name = "id_follower"),
+            inverseJoinColumns = @JoinColumn(name = "id_following")
+    )
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<User> following = new HashSet<>();
+
+    @ManyToMany(mappedBy = "following",fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<User> followers = new HashSet<>();
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

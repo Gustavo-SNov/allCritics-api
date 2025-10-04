@@ -25,11 +25,11 @@ public class ConsumptionHistory {
     private LocalDateTime consumptionDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "content_id", nullable = false)
+    @JoinColumn(name = "id_content", nullable = false)
     private Content content;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
     @PrePersist
