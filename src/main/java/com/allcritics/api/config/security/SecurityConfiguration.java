@@ -60,6 +60,9 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.DELETE, "/review/**").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/review","/review/**").permitAll()
 
+                                .requestMatchers(HttpMethod.POST, "/like").authenticated()
+                                .requestMatchers(HttpMethod.DELETE, "/like/**").authenticated()
+
                                 .requestMatchers(HttpMethod.GET, "/category/**").permitAll()
 
                                 .anyRequest().authenticated()

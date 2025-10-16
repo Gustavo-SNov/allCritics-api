@@ -69,6 +69,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "id_follower"),
             inverseJoinColumns = @JoinColumn(name = "id_following")
     )
+
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<User> following = new HashSet<>();
@@ -77,7 +78,6 @@ public class User implements UserDetails {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<User> followers = new HashSet<>();
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
